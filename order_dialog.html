@@ -1,0 +1,71 @@
+<md-dialog aria-label="Add new order"  ng-cloak flex="50" flex-gt-lg="65" class="app-modal" min-height="80">
+<div style="height:100%">
+  <div style="height:10%">
+    <md-button class="md-icon-button" ng-click="dialog.cancel()">
+    <md-icon md-svg-src="img/close.svg" class="icon-button-close" aria-label="Close dialog"></md-icon>
+    </md-button>
+    
+  </div>
+  <div style="height:90%" layout="column" layout-align="space-around center">
+  <md-dialog-content >
+
+    <div layout="column">
+      <md-content layout-padding>
+      <form name="orderForm">
+        <div layout="column" layout-align="center center" ng-show='!dialog.showOption()'>
+          <md-select placeholder="Select location" ng-model="dialog.x.location" md-on-open="" md-selected-text="dialog.getOption()" md-on-close="dialog.clearSearchTerm()" style="min-width: 200px;" data-md-container-class="selectdemoSelectHeader">
+          <md-select-header class="demo-select-header">
+          <input ng-model="dialog.searchTerm"
+          type="search"
+          placeholder="Search for a location...."
+          class="demo-header-searchbox md-text">
+          </md-select-header>
+          <md-optgroup>
+          <md-option ng-value="location" ng-repeat="location in dialog.locations | filter: dialog.searchTerm">{{location.name}}</md-option>
+          <md-option ng-value="'Add new location'">Add new location</md-option>
+          
+          </md-optgroup>
+          </md-select>
+        </div>
+        <md-input-container class="md-block" ng-show='dialog.showLocation'>
+        <label>Location website</label>
+        <input required name="locationLink" ng-model="dialog.location.link">
+        <div ng-messages="orderForm.locationLink.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+        </md-input-container>
+      </form>
+      </md-content>
+    </div>
+    <div layout="column" ng-if='!dialog.showOrder'>
+      <md-content layout-padding>
+      <form name="itemForm" layout-align="space-around center">
+        <md-input-container class="md-block">
+        <label>Food</label>
+        <input md-minlength="15" required name="value" ng-model="dialog.x.value">
+        <div ng-messages="itemForm.value.$error">
+          <div ng-message="required">This is required.</div>
+          <div ng-message="md-minlength">The order has to be more than 15 characters long.</div>
+        </div>
+        </md-input-container>
+        <md-input-container class="md-icon-float md-icon-right md-block">
+        <label>Price</label>
+        <input ng-model="dialog.x.price" type="number" step="1">
+        <md-icon md-svg-src="">$</md-icon>
+        </md-input-container>
+      </form>
+      </md-content>
+      
+    </div>
+
+  </md-dialog-content>
+
+  <md-dialog-actions layout="row" class="dialog-actions">
+ 
+  <button  ng-hide='dialog.showLocation' ng-click="dialog.save(dialog.x, dialog.update)" class="md-raised md-primary md-button md-ink-ripple" style="margin-right:20px;" type="button" aria-label="Primary"><span class="ng-scope">Save</span><div class="md-ripple-container"></div></button>
+  <button  ng-show='dialog.showLocation' ng-click="dialog.addLocation(dialog.location.link)" class="md-raised md-primary md-button md-ink-ripple" style="margin-right:20px;" type="button" aria-label="Primary"><span class="ng-scope">Save</span><div class="md-ripple-container"></div></button>
+ 
+  </md-dialog-actions>
+   </div>
+</div>
+</md-dialog>

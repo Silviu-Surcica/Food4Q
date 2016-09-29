@@ -1,0 +1,66 @@
+<md-toolbar>
+<div class="md-toolbar-tools">
+  
+  <h2>
+  <span>Food4Q</span>
+  </h2>
+  <span flex></span>
+  <p>Welcome {{user.google.displayName}}!</p>
+  <md-button class="md-icon-button" ng-click="logout()">
+  <img ng-src="img/logout.png"></img>
+  </md-button>
+</div>
+</md-toolbar>
+<div class="add-order-container">
+  <md-button ng-click="addNew($event, 'order')" ng-show='showDetails(null)' class="md-fab md-primary md-hue-2" aria-label="Profile">+</md-button>
+</div>
+<div class='md-padding' layout="row" layout-wrap layout-align="center">
+  <md-card ng-show='showDetails(order)' ng-init='getLocation(order)' flex="40" style="max-width:80%" flex-sm="80" ng-repeat="order in orders track by $index" ng-init="show=false">
+  <md-card-title>
+  <md-card-title-text>
+  <span class="md-headline"><a href='{{order.location.url}}'>{{order.location.name}}</a></span>
+  <span class="md-subhead">Status: {{order.status}}</span>
+  <!--   <span class="md-subhead">Admin: {{order.admin_name}}</span> -->
+  <span class="md-subhead">{{order.items_nr}} members</span>
+  <span class="md-subhead">Total: {{order.total | currency:"RON ":0}}</span>
+  <!--   <span class="md-subhead" ng-show='show'>Description: {{order.location.description}}</span> -->
+  </md-card-title-text>
+  <md-card-title-media>
+  <div class="md-media-sm card-media">
+    <img ng-src="{{order.location.image}}" width="250" height="200" title="{{item.name}}">
+  </div>
+  </md-card-title-media>
+  </md-card-title>
+  <md-card-actions layout="row" layout-align="end center" class="layout-align-end-center layout-row">
+  <button ng-click="orders.$remove(order)" ng-hide='show' aria-label="Remove" class="md-accent md-button md-ink-ripple" type="button"><span class="ng-scope">Remove</span><div style="" class="md-ripple-container"></div></button>
+  <md-button ng-click='setItem(order, $index); show=true' ng-hide='show'>View details</md-button>
+  <md-button ng-click="addNew($event, 'order', order, $index)" ng-hide='show'>Edit</md-button>
+  <md-button ng-click='unsetItem(order); show=false' ng-show='show'>Hide details</md-button>
+  </md-card-actions>
+  <md-button ng-click="addNew($event, 'item', null, $index)" ng-show='show' class="md-fab md-primary md-hue-2" aria-label="Profile">+</md-button>
+  <md-list>
+  <md-subheader class="md-no-sticky" ng-show='show'>Order Details</md-subheader>
+  <div ng-repeat="item in items" ng-show='show'>
+    
+    <md-divider></md-divider>
+    <md-list-item class="noright">
+    <div class="md-list-item-inner" layout="row" style="width: 100%;">
+      <div style="width:20%;" layout="row">
+        <img alt="{{ item.name }}" ng-src="{{ item.img }}" class="md-avatar" />
+        <p>{{ item.name }}</p>
+      </div>
+      <span flex></span>
+      <div style="width:30%;" layout="row">
+        <p >{{ item.value }}</p>
+        <span flex></span>
+        <p>{{item.price | currency:" RON ":0}}</p>
+      </div>
+      <span flex></span>
+      <md-button ng-click="addNew($event, 'item', item, $parent.$index)">Edit</md-button>
+      <md-button ng-click="removeItem(item, $parent.$index)" aria-label="Remove" class="md-accent md-button md-ink-ripple" type="button"><span class="ng-scope">Remove</span></md-button>
+    </div>
+    </md-list-item>
+  </div>
+  </md-list>
+  </md-card>
+</div>
